@@ -1,0 +1,305 @@
+<div class="w-full h-full">
+  <div class="flex flex-row items-center justify-center my-4">
+    <h2 class="text-2xl font-bold text-black">INGRESO</h2>
+  </div>
+  <div
+    class="flex flex-col flex-nowrap items-start justify-center gap-4 w-9/12 m-auto max-w-5xl border-2 border-dashed border-gray-500 rounded-md p-10"
+  >
+    <div class="grid grid-cols-3 gap-5 grid-flow-row auto-rows-max">
+      <div class="w-56">
+        <label
+          for="Documento"
+          class="block text-sm mb-2 font-medium text-gray-900 w-full"
+          >Documento:</label
+        >
+        <select
+          name="Documento"
+          id="Documento"
+          [(ngModel)]="Ingreso.documento"
+          #documento="ngModel"
+          required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md p-1 h-9 w-full"
+        >
+          <option value="Condicion1">Factura</option>
+        </select>
+        <div *ngIf="documento.invalid && documento.touched" class="text-red-500 text-sm">Documento obligatorio.</div>
+      </div>
+      <div class="w-56">
+        <label
+          for="Condicion"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Condicion:</label
+        >
+        <select
+            name="Condicion"
+            id="Condicion"
+            [(ngModel)]="Ingreso.condicion"
+            #condicion="ngModel"
+            required
+            class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 w-full"
+          >
+            <option value="Entrega inmediata">Entrega inmediata</option>
+            <option value="Recoger en tienda">Recoger en tienda</option>
+            <option value="A convenir">A convenir</option>
+          </select>
+          <div *ngIf="condicion.invalid && condicion.touched" class="text-red-500 text-sm">Condición obligatoria.</div>
+      </div>
+      <div class="w-56">
+        <label
+          for="TipoPago"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Tipo Pago:</label
+        >
+        <select
+          name="TipoPago"
+          id="TipoPago"
+          [(ngModel)]="Ingreso.tipopago"
+          #tipopago="ngModel"
+          required
+          class="block p-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 w-full"
+        >
+          <option value="Pago unico">Pago único</option>
+          <option value="Pago a plazos">Pago a plazos</option>
+          <option value="Pago anticipado">Pago anticipado</option>
+          <option value="Pago a credito">Pago a crédito</option>
+        </select>
+        <div *ngIf="tipopago.invalid && tipopago.touched" class="text-red-500 text-sm">Tipo de pago obligatorio.</div>
+      </div>
+      <div class="w-56">
+        <label
+          for="FormaPago"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Forma Pago:</label
+        >
+        <select
+          name="FormaPago"
+          id="FormaPago"
+          [(ngModel)]="Ingreso.formapago"
+          #formapago="ngModel"
+          required
+          class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50"
+        >
+          <option value="Contado">Contado</option>
+          <option value="Credito">Crédito</option>
+        </select>
+        <div *ngIf="formapago.invalid && formapago.touched" class="text-red-500 text-sm">Forma de pago obligatoria.</div>
+      </div>
+
+      <div class="w-56">
+        <label
+          for="fecha-emision"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Fecha de Emisión</label
+        >
+        <input
+          type="date"
+          id="fecha-emision"
+          name="fecha-emision"
+          [(ngModel)]="Ingreso.fecha_emision"
+          #fecha_emision="ngModel"
+          required
+          class="w-full p-2 border border-gray-300 text-gray-900 rounded-md shadow-sm h-9"
+          placeholder="yyyy-mm-dd"
+        />
+        <div *ngIf="fecha_emision.invalid && fecha_emision.touched" class="text-red-500 text-sm">Fecha de emisión obligatoria.</div>
+      </div>
+      <div class="w-56">
+        <label
+          for="fecha-vencimiento"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Fecha de Vencimiento</label
+        >
+        <input
+          type="date"
+          id="fecha-vencimiento"
+          name="fecha-vencimiento"
+          [(ngModel)]="Ingreso.fecha_vencimiento"
+          #fecha_vencimiento="ngModel"
+          required
+          class="w-full p-2 border border-gray-300 text-gray-900 rounded-md shadow-sm h-9"
+          placeholder="yyyy-mm-dd"
+        />
+        <div *ngIf="fecha_vencimiento.invalid && fecha_vencimiento.touched" class="text-red-500 text-sm">Fecha de Vencimiento obligatoria.</div>
+      </div>
+      <div class="w-full col-span-3">
+        <label
+          for="Proveedor"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Provedor:</label
+        >
+        <select
+          name="Proveedor"
+          id="Proveedor"
+          (click)="EscogeProveedor($event)"
+          class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50"
+        >
+          <option value="...">...</option>
+          @for (usuario of Usuarios; track $index) {
+          <option [value]="usuario.id">{{ usuario.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div class="w-full col-span-3">
+        <label
+          for="Producto"
+          class="block mb-2 text-sm font-medium text-gray-900 w-full"
+          >Producto:</label
+        >
+        <select
+          name="Producto"
+          id="Producto"
+          (click)="EscogeProducto($event)"
+          class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50"
+        >
+          <option value="...">...</option>
+          @for (producto of Productos; track $index) {
+          <option [value]="producto.id">{{ producto.nombre }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-11/12">
+      <table
+        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+      >
+        <thead class="text-xs text-gray-900 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 max-w-16">Cantidad</th>
+            <th scope="col" class="px-6 py-3">Nombre</th>
+            <th scope="col" class="px-6 py-3 max-w-32">P. Unit</th>
+            <th scope="col" class="px-6 py-3 w-fit">P. Total</th>
+            <th scope="col" class="px-6 py-3 max-w-16">Accion</th>
+          </tr>
+        </thead>
+        @if (Ingreso.detalles && Ingreso.detalles.length > 0) {
+        <tbody>
+          @for (detalle of Ingreso.detalles; track $index) {
+          <tr class="bg-white border-b text-gray-900">
+            <td class="px-6 py-4 max-w-16">
+              <input
+                class="inputcotizacion max-w-16 text-sm"
+                type="text"
+                [name]="'cant_' + $index"
+                [id]="'cant_' + $index"
+                [(ngModel)]="detalle.cantidad"
+                (change)="recalcularPrecio($index)"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+            </td>
+            <td class="px-6 py-4">{{ detalle.nombre }}</td>
+            <td class="px-6 py-4 max-w-32">
+              {{ detalle.precioUnitario | currency : "S/. " }}
+            </td>
+            <td class="px-6 py-4 w-fit">
+              {{ detalle.total | currency : "S/. " }}
+            </td>
+            <td
+              class="px-6 py-4 w-fit flex flex-row flex-nowrap items-center justify-start gap-2"
+            >
+              <svg
+                class="w-6 h-6 text-red-600 dark:text-red-600 hover:scale-110 hover:cursor-pointer"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+                (click)="deleteProducto($index)"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                />
+              </svg>
+            </td>
+          </tr>
+          }
+        </tbody>
+        }
+      </table>
+    </div>
+    <hr class="border-1 border-dashed border-gray-500 w-11/12" />
+
+    <div class="grid grid-cols-2 w-11/12">
+      <div>
+        <div class="w-56">
+          <label
+            for="Nota"
+            class="block text-sm mb-2 font-medium text-gray-900 w-full"
+            >Nota:</label
+          >
+          <!-- <textarea
+                  
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md p-1 h-9 w-full"
+                ><textarea/> -->
+          <textarea
+            [(ngModel)]="Ingreso.nota"
+            class="w-72 h-36"
+            name="Nota"
+            id="Nota"
+          ></textarea>
+        </div>
+      </div>
+      <div>
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <div>
+            <label for="gra" class="form-label">Gravada (sin IGV)</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="gra"
+              [value]="totalGravada | currency : 'S/. '"
+              disabled
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            />
+          </div>
+        </div>
+
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <div>
+            <label for="igv" class="form-label">Impuesto IGV (18%)</label>
+          </div>
+          <div>
+            <input
+              type="text"
+              id="igv"
+              [value]="igv | currency : 'S/. '"
+              disabled
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            />
+          </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div><label for="pagar" class="form-label">Total Pagar</label></div>
+          <div>
+            <input
+              type="text"
+              id="pagar"
+              [value]="totalPagar | currency : 'S/. '"
+              disabled
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-1 border-dashed border-gray-500 w-11/12" />
+    <div *ngIf="registroExitoso" class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4 text-center">
+      Documento de ingreso registrado con éxito.
+    </div>
+    <button
+      type="button"
+      (click)="Registrar()"
+      class="py-2 px-4 rounded-md text-white font-bold w-full bg-blue-500 hover:bg-customGreenDark transition-colors"
+    >
+      Registrar
+    </button>
+  </div>
+</div>

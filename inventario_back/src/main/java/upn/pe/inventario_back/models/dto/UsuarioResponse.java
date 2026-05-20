@@ -1,0 +1,19 @@
+package upn.pe.inventario_back.models.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UsuarioResponse {
+    private Long id;
+    private String documento;
+    private String nombre;
+    private String direccion;
+    private String telefono;
+    private String rol;
+}

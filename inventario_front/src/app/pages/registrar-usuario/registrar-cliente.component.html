@@ -1,0 +1,138 @@
+<main>
+  <div class="w-full flex flex-row items-center justify-center my-6">
+    <h2 class="font-bold text-gray-950 text-3xl">Registrar Nuevo Usuario</h2>
+  </div>
+  <button
+    (click)="toggleForm()"
+    class="bg-blue-500 text-white py-2 px-4 rounded-md font-bold hover:bg-blue-500 transition-colors mb-4"
+  >
+    {{ showForm ? "Ocultar Formulario" : "Registrar Nuevo Usuario" }}
+  </button>
+  @if(showForm){
+  <form class="mb-6">
+    <label for="documento">Documento:</label>
+    <div class="flex flex-row flex-nowrap gap-2 items-start justify-center">
+      <input
+        type="text"
+        id="documento"
+        name="documento"
+        [(ngModel)]="NewUsuario.documento"
+        required
+        pattern="^[0-9]*$"
+        minlength="11"
+        maxlength="11"
+        #doc="ngModel"
+        (keypress)="soloNumeros($event)"
+        class="border border-gray-300 rounded px-2 py-1"
+      />
+      <button
+        type="button"
+        (click)="buscarRuc(NewUsuario.documento)"
+        class="flex w-12 h-12 bg-blue-500 hover:bg-customGreenDark transition-colors items-center justify-center rounded-md mt-1"
+      >
+        <svg
+          class="w-6 h-6 text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z" />
+          <path
+            fill-rule="evenodd"
+            d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+    <div *ngIf="doc.invalid && (doc.dirty || doc.touched)" class="text-red-500 text-sm">
+      <span *ngIf="doc.errors?.['required']">El RUC es obligatorio.</span>
+      <span *ngIf="doc.errors?.['minlength'] || doc.errors?.['maxlength']">El RUC debe tener 11 dígitos.</span>
+      <span *ngIf="doc.errors?.['pattern']">Solo se permiten números.</span>
+
+    </div>
+
+    
+  <label for="nombre">Nombre:</label>
+    <input
+      type="text"
+      id="nombre"
+      name="nombre"
+      [(ngModel)]="NewUsuario.nombre"
+      required
+      #nombre="ngModel"
+      class="border border-gray-300 rounded px-2 py-1"
+    />
+    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-red-500 text-sm">
+      El nombre es obligatorio.
+    </div>
+
+    <label for="direccion">Dirección:</label>
+    <input
+      type="text"
+      id="direccion"
+      name="direccion"
+      [(ngModel)]="NewUsuario.direccion"
+      required
+      #direccion="ngModel"
+      class="border border-gray-300 rounded px-2 py-1"
+    />
+    <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)" class="text-red-500 text-sm">
+      La dirección es obligatoria.
+    </div>
+
+    <label for="telefono">Teléfono:</label>
+    <input
+      type="text"
+      id="telefono"
+      name="telefono"
+      [(ngModel)]="NewUsuario.telefono"
+      required
+      pattern="^[0-9]*$"
+      (keypress)="soloNumeros($event)"  
+      #telefono="ngModel"
+      class="border border-gray-300 rounded px-2 py-1"
+    />
+    <div *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)" class="text-red-500 text-sm">
+      <span *ngIf="telefono.errors?.['required']">El teléfono es obligatorio.</span>
+      <span *ngIf="telefono.errors?.['pattern']">Solo se permiten números.</span>
+    </div>
+
+    <label for="linea" class="block">Rol:</label>
+    <select
+      name="linea"
+      id="linea"
+      required
+      [(ngModel)]="NewUsuario.rol"
+      #rol="ngModel"
+      class="my-3 text-lg bg-gray-100 text-black rounded-md p-2"
+    >
+      <option value="" disabled selected>Seleccione un rol</option>
+      @for (rol of Roles; track $index) {
+        <option [value]="rol.nombre">{{ rol.nombre }}</option>
+      }
+    </select>
+    <div *ngIf="rol.invalid && (rol.dirty || rol.touched)" class="text-red-500 text-sm">
+      El rol es obligatorio.
+    </div>
+    <br>
+    <button
+      type="button"
+      (click)="Registrar(doc, nombre, direccion, telefono, rol)"
+      class="bg-blue-500 text-white py-2 px-4 rounded-md font-bold hover:bg-customGreenDark transition-colors"
+    >
+      Registrar
+    </button>
+  </form>
+  }
+
+  <app-tables
+    [data]="Usuarios"
+    [columns]="['id', 'nombre', 'documento', 'direccion', 'rol']"
+    [iconType]="'register'"
+    (eliminar)="eliminarUsuario($event)"
+  />
+</main>

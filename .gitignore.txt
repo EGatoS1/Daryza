@@ -1,0 +1,27 @@
+# Backend - Spring Boot / Maven
+inventario_back/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Frontend - Angular / Node
+inventario_front/node_modules/
+inventario_front/.angular/cache/
+inventario_front/dist/
+
+# Entornos y credenciales
+.env
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

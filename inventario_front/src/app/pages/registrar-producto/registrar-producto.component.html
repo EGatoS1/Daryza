@@ -1,0 +1,118 @@
+<main class="col-md-9 col-lg-10 content">
+  <div class="w-full flex flex-row items-center justify-center my-6">
+    <h2 class="font-bold text-gray-950 text-3xl">Registrar Nuevo Producto</h2>
+  </div>
+  <button
+    (click)="toggleForm()"
+    class="bg-blue-500 text-white py-2 px-4 rounded-md font-bold hover:bg-customGreenDark transition-colors mb-4"
+  >
+    {{ showForm ? "Ocultar Formulario" : "Registrar Nuevo Producto" }}
+  </button>
+  @if(showForm){
+  <form class="form-container" [ngClass]="{ show: showForm }">
+    <label for="nombre">Nombre:</label>
+    <input
+      type="text"
+      id="nombre"
+      name="nombre"
+      [(ngModel)]="NewProducto.nombre"
+      required
+      #nombre="ngModel"
+    />
+    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-red-500 text-sm">
+      El nombre es obligatorio.
+    </div>
+
+    <label for="descripcion">Descripción:</label>
+    <textarea
+      id="descripcion"
+      name="descripcion"
+      [(ngModel)]="NewProducto.descripcion"
+      required
+      #descripcion="ngModel"
+    ></textarea>
+    <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)" class="text-red-500 text-sm">
+      La descripción es obligatoria.
+    </div>
+
+    <label for="unidad">Unidad de Medida:</label>
+    <input
+      type="text"
+      id="unidad"
+      name="unidad"
+      [(ngModel)]="NewProducto.unidad_medida"
+      required
+      #unidad="ngModel"
+    />
+    <div *ngIf="unidad.invalid && (unidad.dirty || unidad.touched)" class="text-red-500 text-sm">
+      La unidad de medida es obligatoria.
+    </div>
+
+    <label for="categoria" class="block">Categoría:</label>
+    <select
+      name="categoria"
+      id="categoria"
+      [(ngModel)]="NewProducto.categoria_id"
+      required
+      #categoria="ngModel"
+      class="my-3 text-lg bg-gray-100 text-black rounded-md p-2"
+    >
+      <option value="" disabled selected>Seleccione una categoría</option>
+      @for (categoria of Categorias; track $index) {
+        <option [value]="categoria.id">{{ categoria.nombre }}</option>
+      }
+    </select>
+    <div *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)" class="text-red-500 text-sm">
+      La categoría es obligatoria.
+    </div>
+
+    <label for="linea" class="block">Tipo:</label>
+    <select
+      name="linea"
+      id="linea"
+      [(ngModel)]="NewProducto.linea_id"
+      required
+      #linea="ngModel"
+      class="my-3 text-lg bg-gray-100 text-black rounded-md p-2"
+    >
+      <option value="" disabled selected>Seleccione un tipo</option>
+      @for (linea of Lineas; track $index) {
+        <option [value]="linea.id">{{ linea.nombre }}</option>
+      }
+    </select>
+    <div *ngIf="linea.invalid && (linea.dirty || linea.touched)" class="text-red-500 text-sm">
+      El tipo es obligatorio.
+    </div>
+
+    <label for="precio" class="block">Precio Unitario:</label>
+    <input
+      type="number"
+      id="precio"
+      name="precio"
+      [(ngModel)]="NewProducto.precio"
+      required
+      min="0.01"
+      #precio="ngModel"
+    />
+    <div *ngIf="precio.invalid && (precio.dirty || precio.touched)" class="text-red-500 text-sm">
+      <span *ngIf="precio.errors?.['required']">El precio es obligatorio.</span>
+      <span *ngIf="precio.errors?.['min']">El precio debe ser mayor a 0.</span>
+    </div>
+
+    <button
+      type="button"
+      (click)="Registrar(nombre, descripcion, unidad, categoria, linea, precio)"
+      class="bg-blue-500 text-white py-2 px-4 rounded-md font-bold hover:bg-customGreenDark transition-colors"
+    >
+      Registrar Producto
+    </button>
+  </form>
+  }
+
+  <app-tables
+    [data]="Productos"
+    [columns]="['id', 'nombre', 'descripcion', 'precio', 'Stock']"
+    [ruta]="'dashboard/consultar-producto'"
+    [iconType]="'producto'"
+  />
+</main>
