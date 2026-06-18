@@ -36,7 +36,6 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService cs;
-    @CrossOrigin(origins = "http://localhost:4200")    
     @DeleteMapping(path= "/{id}")
     public ResponseEntity<Map<String, String>> eliminar(@PathVariable("id") Long id) {
     boolean r = this.cs.eliminarCliente(id);
